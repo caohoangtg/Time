@@ -1,0 +1,14 @@
+C:\Users\CAO\source\repos\Time\Time.Model\bin\Debug\Time.Model.dll
+C:\Users\CAO\source\repos\Time\Time.Model\bin\Debug\Time.Model.pdb
+C:\Users\CAO\source\repos\Time\Time.Model\bin\Debug\AutoMapper.dll
+C:\Users\CAO\source\repos\Time\Time.Model\bin\Debug\AutoMapper.xml
+C:\Users\CAO\source\repos\Time\Time.Model\obj\Debug\Time.Model.csproj.CoreCompileInputs.cache
+C:\Users\CAO\source\repos\Time\Time.Model\obj\Debug\Time.Model.dll
+C:\Users\CAO\source\repos\Time\Time.Model\obj\Debug\Time.Model.pdb
+C:\Users\CAO\Desktop\Time\Time.Model\bin\Debug\Time.Model.dll
+C:\Users\CAO\Desktop\Time\Time.Model\bin\Debug\Time.Model.pdb
+C:\Users\CAO\Desktop\Time\Time.Model\bin\Debug\AutoMapper.dll
+C:\Users\CAO\Desktop\Time\Time.Model\bin\Debug\AutoMapper.xml
+C:\Users\CAO\Desktop\Time\Time.Model\obj\Debug\Time.Model.csproj.CoreCompileInputs.cache
+C:\Users\CAO\Desktop\Time\Time.Model\obj\Debug\Time.Model.dll
+C:\Users\CAO\Desktop\Time\Time.Model\obj\Debug\Time.Model.pdb

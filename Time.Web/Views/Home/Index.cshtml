@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["Title"] = "TableTime";
+    string[] dates = { "AAAA", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+    string[] times = { "08:00", "09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00" };
+}
+
+<div class="row">
+    <div class="col-md-2 source">
+        <h3>Subjects</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.viewSubjects)
+                {
+                    <tr class="source">
+                        <td class="drag" id="@item.Id">
+                            @item.Name
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-10" id="list">
+        <h3>Schedule</h3>
+        <table class="table table-bordered table-schedule">
+            <tr>
+                @for (int i = 0; i < dates.Length; i++)
+                {
+                    var numclass = "dates" + i;
+                    <th class="@numclass">@dates[i]</th>
+                }
+            </tr>
+            @for (int i = 0; i < times.Length; i++)
+            {
+                var numclass = "times" + i;
+                <tr class="@numclass cot">
+                    <td>@times[i]</td>
+                    @for (int j = 1; j < dates.Length; j++)
+                    {
+                        string numtd = i + "_" + j;
+                        <td class="@numtd drop"></td>
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+@section scripts{
+<script>
+    $(document).ready(function () {
+        var schedules = @Html.Raw(Json.Encode(@ViewBag.scheduleForm));
+        console.log(schedules);
+        for (var i in schedules) {
+            var daytime = "." + schedules[i].Day + "_" + schedules[i].Time;
+            var name = schedules[i].Name;
+            var sche_id = schedules[i].Id;
+            var data = "<div id='id_" + sche_id + "'>" + name + "<a href='#' onclick='myFunction(this)' class='btn' id='" + sche_id + "'>x</a></div>";
+            $('tr.cot').find(daytime).append(data);
+        }
+        var id_sub;
+        //$(".source td.drag").draggable({ helper: "clone" });
+        $(".source td.drag").draggable({
+            revert: true,
+            proxy: 'clone',
+            drag: function (even, ui) {
+                id_sub = $(this).attr("id");
+            }
+        });
+        
+
+        $('#list td.drop').droppable({
+            drop: function (even, ui) {
+                if ($(this).text()){
+                    alert("O da chua du lieu");
+                } else {
+                    $("#" + id_sub).remove();
+                    var sche = {}, str, res, data, daytime;
+                    str = $(this).attr("class");
+                    res = str.split("_");
+                    sche.Time = res[1].split(" ", 1)[0];
+                    sche.Day = res[0];
+                    sche.SubId = $(ui.draggable).attr("id");
+                    daytime = "." + res[0] + "_" + res[1].split(" ", 1)[0];
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("AddSchedule")',
+                        data: JSON.stringify(sche),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (mysche) {
+                            data = "<div class='the' id='id_" + mysche + "'>" + $.trim(ui.draggable.text()) + "<a href='#' onclick='myFunction(this)' class='btn' id='" + mysche + "'>x</a></div>";
+                            $('tr.cot').find(daytime).append(data);
+                        },
+                        error: function () {
+                            alert("Error while inserting data");
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    function myFunction(me) {
+        var attrID = $(me).attr("id");
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DeleteSchedule")',
+            data: { id: attrID },
+            success: function () {
+                $("#id_" + attrID).remove();
+            },
+            error: function () {
+                alert("Error while inserting data");
+            }
+        });
+    }
+</script>
+
+}
